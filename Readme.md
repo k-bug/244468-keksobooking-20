@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Kirill Bugaev](https://up.htmlacademy.ru/javascript/20/user/244468).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Бородин](https://htmlacademy.ru/profile/id1092697).
 
 ---
 
