@@ -10,11 +10,13 @@ var REAL_ESTATE_TYPE = ['palace', 'flat', 'house', 'bungalo'];
 var ROOMS = [1, 2, 3, 100];
 var GUESTS_QUANTITY = [1, 2, 3];
 var CHECK_TIMES = ['12:00', '13:00', '14:00'];
-var DESCRIPTIONS = ['Уютные апартаменты в эклектичном стиле', 'Каждая вещь в этой квартире подобрана строго по древним канонам', 'Приезжайте, не пожалеете!'];
+var DESCRIPTIONS = ['Уютные апартаменты в эклектичном стиле',
+  'Каждая вещь в этой квартире подобрана строго по древним канонам', 'Приезжайте, не пожалеете!'];
 
 var fragment = document.createDocumentFragment();
 var pagePins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var adCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 var getRangeValue = function (from, to) {
   var range = to - from + 1;
@@ -32,6 +34,7 @@ var getXPinPosition = function () {
 var getYPinPosition = function () {
   var pointsRange = PIN_Y_END - PIN_Y_START + 1;
   var randomPoint = Math.floor(Math.random() * pointsRange) + PIN_HEIGHT;
+
   return randomPoint;
 };
 
@@ -44,14 +47,16 @@ var getFeatures = function (features) {
   for (var i = 0; i < getRangeValue(0, features.length); i++) {
     flatFeature[i] = features[i];
   }
+
   return flatFeature;
 };
 
 var getPhotos = function () {
   var photos = [];
-  for (var i = 0; i < getRangeValue(1, 9); i++) {
+  for (var i = 0; i < getRangeValue(1, 4); i++) {
     photos[i] = 'http://o0.github.io/assets/images/tokyo/hotel' + (i + 1) + '.jpg';
   }
+
   return photos;
 };
 
@@ -79,6 +84,7 @@ var generateAdvertsArray = function () {
       }
     };
   }
+
   return adverts;
 };
 
@@ -88,7 +94,60 @@ var createPin = function (adPin) {
   pin.children[0].alt = adPin.offer.title;
   pin.style.left = adPin.location.x;
   pin.style.top = adPin.location.y;
+
   return pin;
+};
+
+var createAdCard = function (ad) {
+  var adCard = adCardTemplate.cloneNode(true);
+  adCard.querySelector('.popup__title').textContent = ad.offer.title;
+  adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
+  adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
+
+  if (ad.offer.type === 'palace') {
+    adCard.querySelector('.popup__type').textContent = 'Дворец';
+  } else if (ad.offer.type === 'flat') {
+    adCard.querySelector('.popup__type').textContent = 'Квартира';
+  } else if (ad.offer.type === 'house') {
+    adCard.querySelector('.popup__type').textContent = 'Дом';
+  } else {
+    adCard.querySelector('.popup__type').textContent = 'Бунгало';
+  }
+
+  adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' +
+    ad.offer.guests + ' гостей';
+  adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin +
+    ', выезд до ' + ad.offer.checkout;
+
+  // В список .popup__features выведите все доступные удобства в объявлении.
+  var adCardFeatures = adCard.querySelectorAll('.popup__feature');
+  for (var k = 0; k < adCardFeatures.length; k++) {
+    adCardFeatures[k].remove();
+  }
+  for (var i = 0; i < ad.offer.features.length; i++) {
+    var feature = document.createElement('li');
+    feature.classList.add('popup__feature');
+    feature.classList.add('popup__feature--' + ad.offer.features[i]);
+    adCard.querySelector('.popup__features').appendChild(feature);
+    // if (!ad.offer.features[i]) {
+    //   adCard.querySelector('.popup__features' + ad.offer.features[i]).remove();
+    //   console.log(adCard.querySelector('.popup__features' + ad.offer.features[i]));
+    // }
+  }
+
+  adCard.querySelector('.popup__description').textContent = ad.offer.description;
+  for (var j = 0; j < ad.offer.photos.length; j++) {
+    var adPhoto = adCard.querySelector('.popup__photos').querySelector('img').cloneNode(true);
+    adPhoto.src = ad.offer.photos[j];
+    adCard.querySelector('.popup__photos').appendChild(adPhoto);
+  }
+
+  adCard.querySelector('.popup__photos').querySelector('img').remove();
+  adCard.querySelector('.popup__avatar').src = ad.author;
+
+  //   Если данных для заполнения не хватает, соответствующий блок в карточке скрывается.
+
+  return adCard;
 };
 
 for (var i = 0; i < 8; i++) {
@@ -98,3 +157,4 @@ for (var i = 0; i < 8; i++) {
 document.querySelector('.map').classList.remove('map--faded');
 
 pagePins.appendChild(fragment);
+pagePins.appendChild(createAdCard(generateAdvertsArray()[0]));
