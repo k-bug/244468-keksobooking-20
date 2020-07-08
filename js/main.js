@@ -17,6 +17,12 @@ var fragment = document.createDocumentFragment();
 var pagePins = document.querySelector('.map__pins');
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
 var adCardTemplate = document.querySelector('#card').content.querySelector('.map__card');
+var featuresDictionary = {
+  'flat': 'Квартира',
+  'palace': 'Дворец',
+  'house': 'Дом',
+  'bungalo': 'Бунгало'
+};
 
 var getRangeValue = function (from, to) {
   var range = to - from + 1;
@@ -103,23 +109,12 @@ var createAdCard = function (ad) {
   adCard.querySelector('.popup__title').textContent = ad.offer.title;
   adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
   adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-
-  if (ad.offer.type === 'palace') {
-    adCard.querySelector('.popup__type').textContent = 'Дворец';
-  } else if (ad.offer.type === 'flat') {
-    adCard.querySelector('.popup__type').textContent = 'Квартира';
-  } else if (ad.offer.type === 'house') {
-    adCard.querySelector('.popup__type').textContent = 'Дом';
-  } else {
-    adCard.querySelector('.popup__type').textContent = 'Бунгало';
-  }
-
+  adCard.querySelector('.popup__type').textContent = featuresDictionary[ad.offer.type];
   adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' +
     ad.offer.guests + ' гостей';
   adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin +
     ', выезд до ' + ad.offer.checkout;
 
-  // В список .popup__features выведите все доступные удобства в объявлении.
   var adCardFeatures = adCard.querySelectorAll('.popup__feature');
   for (var k = 0; k < adCardFeatures.length; k++) {
     adCardFeatures[k].remove();
@@ -129,10 +124,6 @@ var createAdCard = function (ad) {
     feature.classList.add('popup__feature');
     feature.classList.add('popup__feature--' + ad.offer.features[i]);
     adCard.querySelector('.popup__features').appendChild(feature);
-    // if (!ad.offer.features[i]) {
-    //   adCard.querySelector('.popup__features' + ad.offer.features[i]).remove();
-    //   console.log(adCard.querySelector('.popup__features' + ad.offer.features[i]));
-    // }
   }
 
   adCard.querySelector('.popup__description').textContent = ad.offer.description;
