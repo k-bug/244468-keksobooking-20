@@ -124,22 +124,22 @@ var addPhotos = function (photos, adCard) {
   }
 };
 
-var placeHouisingTitle = function (title, adCard) {
+var placeHousingTitle = function (title, adCard) {
   checkExistence(title) ? adCard.querySelector('.popup__title').textContent = title :
     adCard.querySelector('.popup__title').classList.add('hidden');
 };
 
-var placeHouisingAddres = function (address, adCard) {
+var placeHousingAddres = function (address, adCard) {
   checkExistence(address) ? adCard.querySelector('.popup__text--address').textContent = address :
     adCard.querySelector('.popup__text--address').classList.add('hidden');
 };
 
-var placeHouisingPrice = function (price, adCard) {
+var placeHousingPrice = function (price, adCard) {
   checkExistence(price) ? adCard.querySelector('.popup__text--price').textContent = price + '₽/ночь' :
     adCard.querySelector('.popup__text--price').classList.add('hidden');
 };
 
-var placeHouisingСapacity = function (rooms, guests, adCard) {
+var placeHousingСapacity = function (rooms, guests, adCard) {
   switch (true && true) {
     case checkExistence(rooms) !== false && checkExistence(guests) !== false:
       adCard.querySelector('.popup__text--capacity').textContent = rooms + ' комнаты для ' +
@@ -157,7 +157,7 @@ var placeHouisingСapacity = function (rooms, guests, adCard) {
   }
 };
 
-var placeHouisingTimes = function (checkin, checkout, adCard) {
+var placeHousingTimes = function (checkin, checkout, adCard) {
   switch (true && true) {
     case checkExistence(checkin) !== false && checkExistence(checkout) !== false:
       adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + checkin +
@@ -174,12 +174,12 @@ var placeHouisingTimes = function (checkin, checkout, adCard) {
   }
 };
 
-var placeHouisingType = function (type, adCard) {
+var placeHousingType = function (type, adCard) {
   checkExistence(type) ? adCard.querySelector('.popup__type').textContent = type :
     adCard.querySelector('.popup__type').classList.add('hidden');
 };
 
-var placeHouisingFeatures = function (features, adCard) {
+var placeHousingFeatures = function (features, adCard) {
   var adCardFeatures = adCard.querySelectorAll('.popup__feature');
   for (var i = 0; i < adCardFeatures.length; i++) {
     adCardFeatures[i].remove();
@@ -188,12 +188,12 @@ var placeHouisingFeatures = function (features, adCard) {
     adCard.querySelector('.popup__type').classList.add('hidden');
 };
 
-var placeHouisingDescription = function (description, adCard) {
+var placeHousingDescription = function (description, adCard) {
   checkExistence(description) ? adCard.querySelector('.popup__description').textContent = description :
     adCard.querySelector('.popup__description').classList.add('hidden');
 };
 
-var placeHouisingPhotos = function (photos, adCard) {
+var placeHousingPhotos = function (photos, adCard) {
   checkExistence(photos) ? addPhotos(photos, adCard) :
     adCard.querySelector('.popup__type').classList.add('hidden');
   adCard.querySelector('.popup__photos').querySelector('img').remove();
@@ -206,15 +206,15 @@ var placeAuthorAvatar = function (avatar, adCard) {
 
 var createAdCard = function (ad) {
   var adCard = adCardTemplate.cloneNode(true);
-  placeHouisingTitle(ad.offer.title, adCard);
-  placeHouisingAddres(ad.offer.address, adCard);
-  placeHouisingPrice(ad.offer.price, adCard);
-  placeHouisingType(featuresDictionary[ad.offer.type], adCard);
-  placeHouisingСapacity(ad.offer.rooms, ad.offer.guests, adCard);
-  placeHouisingTimes(ad.offer.checkin, ad.offer.checkout, adCard);
-  placeHouisingFeatures(ad.offer.features, adCard);
-  placeHouisingDescription(ad.offer.description, adCard);
-  placeHouisingPhotos(ad.offer.photos, adCard);
+  placeHousingTitle(ad.offer.title, adCard);
+  placeHousingAddres(ad.offer.address, adCard);
+  placeHousingPrice(ad.offer.price, adCard);
+  placeHousingType(featuresDictionary[ad.offer.type], adCard);
+  placeHousingСapacity(ad.offer.rooms, ad.offer.guests, adCard);
+  placeHousingTimes(ad.offer.checkin, ad.offer.checkout, adCard);
+  placeHousingFeatures(ad.offer.features, adCard);
+  placeHousingDescription(ad.offer.description, adCard);
+  placeHousingPhotos(ad.offer.photos, adCard);
   placeAuthorAvatar(ad.author, adCard);
 
   return adCard;
