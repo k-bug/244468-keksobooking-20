@@ -140,7 +140,7 @@ var placeHouisingPrice = function (price, adCard) {
 };
 
 var placeHouisingСapacity = function (rooms, guests, adCard) {
-  switch (checkExistence(rooms) || checkExistence(guests)) {
+  switch (true && true) {
     case checkExistence(rooms) !== false && checkExistence(guests) !== false:
       adCard.querySelector('.popup__text--capacity').textContent = rooms + ' комнаты для ' +
         guests + ' гостей';
@@ -152,14 +152,13 @@ var placeHouisingСapacity = function (rooms, guests, adCard) {
     case checkExistence(rooms) !== false && checkExistence(guests) !== true:
       adCard.querySelector('.popup__text--capacity').textContent = rooms + ' комнаты';
       break;
-    case checkExistence(rooms) !== true && checkExistence(guests) !== true:
+    default:
       adCard.querySelector('.popup__text--capacity').classList.add('hidden');
-      break;
   }
 };
 
 var placeHouisingTimes = function (checkin, checkout, adCard) {
-  switch (checkExistence(checkin) || checkExistence(checkout)) {
+  switch (true && true) {
     case checkExistence(checkin) !== false && checkExistence(checkout) !== false:
       adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + checkin +
         ', выезд до ' + checkout;
