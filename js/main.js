@@ -104,12 +104,54 @@ var createPin = function (adPin) {
   return pin;
 };
 
+var checkExistence = function (value) {
+  return !!value;
+};
+
+var addFeatures = function (features, adCard) {
+  for (var i = 0; i < features.length; i++) {
+    var feature = document.createElement('li');
+    feature.classList.add('popup__feature', 'popup__feature--' + features[i]);
+    adCard.querySelector('.popup__features').appendChild(feature);
+  }
+};
+
+var placeHoisingTitle = function (title, adCard) {
+  checkExistence(title) ? adCard.querySelector('.popup__title').textContent = title :
+    adCard.querySelector('.popup__title').classList.add('hidden');
+};
+
+var placeHoisingAddres = function (address, adCard) {
+  checkExistence(address) ? adCard.querySelector('.popup__text--address').textContent = address :
+    adCard.querySelector('.popup__text--address').classList.add('hidden');
+};
+
+var placeHoisingPrice = function (price, adCard) {
+  checkExistence(price) ? adCard.querySelector('.popup__text--price').textContent = price + '₽/ночь' :
+    adCard.querySelector('.popup__text--price').classList.add('hidden');
+};
+
+var placeHoisingType = function (type, adCard) {
+  checkExistence(type) ? adCard.querySelector('.popup__type').textContent = type :
+    adCard.querySelector('.popup__type').classList.add('hidden');
+};
+var placeHoisingFeatures = function (features, adCard) {
+  checkExistence(features) ? addFeatures(features, adCard) :
+    adCard.querySelector('.popup__type').classList.add('hidden');
+};
+
+var placeAuthorAvatar = function (avatar, adCard) {
+  checkExistence(avatar) ? adCard.querySelector('.popup__avatar').src = avatar :
+    adCard.querySelector('.popup__type').classList.add('hidden');
+};
+
 var createAdCard = function (ad) {
   var adCard = adCardTemplate.cloneNode(true);
-  adCard.querySelector('.popup__title').textContent = ad.offer.title;
-  adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
-  adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
-  adCard.querySelector('.popup__type').textContent = featuresDictionary[ad.offer.type];
+  placeHoisingTitle(ad.offer.title, adCard);
+  placeHoisingAddres(ad.offer.address, adCard);
+  placeHoisingPrice(ad.offer.price, adCard);
+  placeHoisingType(featuresDictionary[ad.offer.type], adCard);
+
   adCard.querySelector('.popup__text--capacity').textContent = ad.offer.rooms + ' комнаты для ' +
     ad.offer.guests + ' гостей';
   adCard.querySelector('.popup__text--time').textContent = 'Заезд после ' + ad.offer.checkin +
@@ -119,12 +161,9 @@ var createAdCard = function (ad) {
   for (var k = 0; k < adCardFeatures.length; k++) {
     adCardFeatures[k].remove();
   }
-  for (var i = 0; i < ad.offer.features.length; i++) {
-    var feature = document.createElement('li');
-    feature.classList.add('popup__feature');
-    feature.classList.add('popup__feature--' + ad.offer.features[i]);
-    adCard.querySelector('.popup__features').appendChild(feature);
-  }
+  // create array
+  placeHoisingFeatures(ad.offer.features, adCard);
+
 
   adCard.querySelector('.popup__description').textContent = ad.offer.description;
   for (var j = 0; j < ad.offer.photos.length; j++) {
@@ -134,9 +173,24 @@ var createAdCard = function (ad) {
   }
 
   adCard.querySelector('.popup__photos').querySelector('img').remove();
-  adCard.querySelector('.popup__avatar').src = ad.author;
+  placeAuthorAvatar(ad.author, adCard);
+
 
   //   Если данных для заполнения не хватает, соответствующий блок в карточке скрывается.
+  // use svitch
+  // !! → boolean
+  // ternary
+
+  // adCard.querySelector('.popup__title').textContent = ad.offer.title;
+  // adCard.querySelector('.popup__text--address').textContent = ad.offer.address;
+  // adCard.querySelector('.popup__text--price').textContent = ad.offer.price + '₽/ночь';
+  // adCard.querySelector('.popup__type').textContent = featuresDictionary[ad.offer.type];
+  // for (var i = 0; i < ad.offer.features.length; i++) {
+  //   var feature = document.createElement('li');
+  //   feature.classList.add('popup__feature', 'popup__feature--' + ad.offer.features[i]);
+  //   adCard.querySelector('.popup__features').appendChild(feature);
+  // }
+  // adCard.querySelector('.popup__avatar').src = ad.author;
 
   return adCard;
 };
