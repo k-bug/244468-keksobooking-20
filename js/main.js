@@ -213,17 +213,10 @@ var createAdCard = function (ad) {
   placeHouisingType(featuresDictionary[ad.offer.type], adCard);
   placeHouisingСapacity(ad.offer.rooms, ad.offer.guests, adCard);
   placeHouisingTimes(ad.offer.checkin, ad.offer.checkout, adCard);
-  // create array
   placeHouisingFeatures(ad.offer.features, adCard);
   placeHouisingDescription(ad.offer.description, adCard);
   placeHouisingPhotos(ad.offer.photos, adCard);
   placeAuthorAvatar(ad.author, adCard);
-
-
-  //   Если данных для заполнения не хватает, соответствующий блок в карточке скрывается.
-  // use switch
-  // !! → boolean
-  // ternary
 
   return adCard;
 };
